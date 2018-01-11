@@ -13,9 +13,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        FileManagerHelper.shared.loadPixabays()
+        
+        let tabViewController = UITabBarController()
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        
+        let mainWeatherVC = MainWeatherViewController()
+        mainWeatherVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+        let mainWeatherNVC = UINavigationController(rootViewController: mainWeatherVC)
+        
+        let favoriteImagesVC = FavoriteImagesViewController()
+        favoriteImagesVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
+        
+        tabViewController.setViewControllers([mainWeatherNVC, favoriteImagesVC], animated: true)
+        self.window?.rootViewController = tabViewController
+        self.window?.makeKeyAndVisible()
+        
         return true
     }
 

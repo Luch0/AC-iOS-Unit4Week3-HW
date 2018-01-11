@@ -6,11 +6,13 @@
 //  Copyright © 2018 C4Q . All rights reserved.
 //
 
-import Foundation
+import MapKit
 
 class ZipCodeHelper {
-    private init() {}
+    
+    private init() { }
     static let manager = ZipCodeHelper()
+    
     func getLocationName(from zipCode: String, completionHandler: @escaping (String) -> Void, errorHandler: @escaping (Error) -> Void) {
         let geocoder = CLGeocoder()
         DispatchQueue.global(qos: .userInitiated).async {
@@ -25,4 +27,5 @@ class ZipCodeHelper {
             }
         }
     }
+    
 }
