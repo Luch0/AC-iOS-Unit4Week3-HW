@@ -30,6 +30,7 @@ class WeatherDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        weatherDetailView.backgroundColor = UIColor.groupTableViewBackground
         view.addSubview(weatherDetailView)
         configureNavBar()
     }
@@ -46,10 +47,14 @@ class WeatherDetailViewController: UIViewController {
             return
         }
         if FileManagerHelper.shared.isImageAlreadySaved(pixabay: pixabay) {
-            showAlertController(with: "Could not Save", message: "Image already in favorites")
+            showAlertController(with: "Could not save", message: "Image already in favorites")
             return
         }
-        FileManagerHelper.shared.saveImage(with: pixabay , image: image)
+        if let locationName = UserDefaultsHelper.shared.getSavedLocationName() {
+            let favPixabayToSave = FavoritePixabay(pixabay: pixabay, locationName: locationName)
+            FileManagerHelper.shared.saveImage(with: favPixabayToSave , image: image)
+            showAlertController(with: "Success", message: "Image saved!")
+        }
     }
     
     func showAlertController(with title: String, message: String) {

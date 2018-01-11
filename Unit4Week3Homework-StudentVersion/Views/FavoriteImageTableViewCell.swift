@@ -22,8 +22,8 @@ class FavoriteImageTableViewCell: UITableViewCell {
         label.textAlignment = .center
         label.text = "Location Name"
         label.layer.backgroundColor = UIColor.white.cgColor
-        //label.layer.cornerRadius = 20
-        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        label.layer.cornerRadius = 3
+        label.font = UIFont.systemFont(ofSize: 25, weight: .bold)
         label.layer.opacity = 0.0
         return label
     }()

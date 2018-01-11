@@ -13,9 +13,9 @@ class FileManagerHelper {
     private init() { }
     static let shared = FileManagerHelper()
     
-    let favImagesPath = "favoriteImages.plist"
+    let favImagesPath = "favoritePixabays.plist"
     
-    var favPixabays = [Pixabay]() {
+    var favPixabaysArray = [FavoritePixabay]() {
         didSet {
             savePixabays()
         }
@@ -31,17 +31,17 @@ class FileManagerHelper {
     }
     
     public func isImageAlreadySaved(pixabay: Pixabay) -> Bool {
-        let imageIndexFound = favPixabays.index{ $0.id == pixabay.id }
+        let imageIndexFound = favPixabaysArray.index{ $0.pixabay.id == pixabay.id }
         if imageIndexFound != nil { return true }
         else { return false }
     }
     
-    func saveImage(with pixabay: Pixabay, image: UIImage) {
+    func saveImage(with favPixabay: FavoritePixabay, image: UIImage) {
         guard let imageData = UIImagePNGRepresentation(image) else { return }
-        let imagePathName = FileManagerHelper.shared.dataFilePath(withPathName: "\(pixabay.id)")
+        let imagePathName = FileManagerHelper.shared.dataFilePath(withPathName: "\(favPixabay.pixabay.id)")
         do {
             try imageData.write(to: imagePathName)
-            favPixabays.append(pixabay)
+            favPixabaysArray.append(favPixabay)
         } catch {
             print("Image saving error: \(error.localizedDescription)")
         }
@@ -62,7 +62,7 @@ class FileManagerHelper {
     private func savePixabays() {
         let propertyListEncoder = PropertyListEncoder()
         do {
-            let encodedData = try propertyListEncoder.encode(favPixabays)
+            let encodedData = try propertyListEncoder.encode(favPixabaysArray)
             let phoneURL = dataFilePath(withPathName: favImagesPath)
             try encodedData.write(to: phoneURL, options: .atomic)
         }
@@ -76,16 +76,16 @@ class FileManagerHelper {
         do {
             let phoneURL = dataFilePath(withPathName: favImagesPath)
             let encodedData = try Data(contentsOf: phoneURL)
-            let savedPixabays = try propertyListDecoder.decode([Pixabay].self, from: encodedData)
-            favPixabays = savedPixabays
+            let savedPixabays = try propertyListDecoder.decode([FavoritePixabay].self, from: encodedData)
+            favPixabaysArray = savedPixabays
         }
         catch {
             print("Decoding error: " + error.localizedDescription)
         }
     }
     
-    public func getFavoritePixabays() -> [Pixabay] {
-        return favPixabays
+    public func getFavoritePixabays() -> [FavoritePixabay] {
+        return favPixabaysArray
     }
 
 }

@@ -25,6 +25,9 @@ class WeatherDetailView: UIView {
         var imageView = UIImageView()
         imageView.image = #imageLiteral(resourceName: "locationImagePlaceholder")
         imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 3.0
+        imageView.layer.shadowOpacity = 1
+        imageView.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
         return imageView
     }()
     
@@ -128,7 +131,7 @@ class WeatherDetailView: UIView {
         
         NSLayoutConstraint.activate([
             locationImageView.topAnchor.constraint(equalTo: mainLabel.bottomAnchor, constant: 16),
-            locationImageView.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor),
+            locationImageView.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor, multiplier: 0.95),
             locationImageView.heightAnchor.constraint(equalTo: safeAreaLayoutGuide.heightAnchor, multiplier: 0.5),
             locationImageView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor)
         ])

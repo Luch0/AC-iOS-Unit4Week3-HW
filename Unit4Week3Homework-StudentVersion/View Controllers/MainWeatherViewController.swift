@@ -25,6 +25,8 @@ class MainWeatherViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        mainWeatherView.backgroundColor = UIColor.groupTableViewBackground
+        mainWeatherView.forecastCollectionView.backgroundColor = UIColor.groupTableViewBackground
         view.addSubview(mainWeatherView)
         navigationItem.title = "Search"
         
@@ -114,31 +116,24 @@ extension MainWeatherViewController: UICollectionViewDataSource {
         cell.highTempLabel.text = "High: \(dayForecast.maxTempF) ℉"
         cell.lowTempLabel.text = "Low: \(dayForecast.minTempF) ℉"
         
-        
-        
-        // TODO: clean up this animation
-        let opacityAnimation = CABasicAnimation(keyPath: "shadowOpacity")
-        opacityAnimation.fromValue = 0 // minimum value
-        opacityAnimation.toValue = 1 // maximum value
-        opacityAnimation.duration = 1
-        cell.layer.shadowOpacity = 1
-        // animate the shadow offset
-        // default is CG.zero
-        let offsetAnimation = CABasicAnimation(keyPath: "shadowOffset")
-        offsetAnimation.fromValue = CGSize.zero
-        offsetAnimation.toValue = CGSize(width: 3.0, height: 3.0)
-        cell.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
-        // create group animation for shadow animation
-        let groupAnimation = CAAnimationGroup()
-        groupAnimation.duration = 1.0
-        groupAnimation.animations = [opacityAnimation, offsetAnimation]
-        cell.layer.add(groupAnimation, forKey: nil)
-        
-        
-        
-        
+        animateCellShadow(cell: cell)
         
         return cell
+    }
+    
+    func animateCellShadow(cell: ForecastCollectionViewCell) {
+        let cellOpacityAnimation = CABasicAnimation(keyPath: "shadowOpacity")
+        cellOpacityAnimation.fromValue = 0
+        cellOpacityAnimation.toValue = 1
+        cell.layer.shadowOpacity = 1
+        let cellOffsetAnimation = CABasicAnimation(keyPath: "shadowOffset")
+        cellOffsetAnimation.fromValue = CGSize.zero
+        cellOffsetAnimation.toValue = CGSize(width: 3.0, height: 3.0)
+        cell.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
+        let groupAnimation = CAAnimationGroup()
+        groupAnimation.duration = 1.0
+        groupAnimation.animations = [cellOpacityAnimation, cellOffsetAnimation]
+        cell.layer.add(groupAnimation, forKey: nil)
     }
     
 }

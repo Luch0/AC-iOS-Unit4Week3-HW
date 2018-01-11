@@ -15,6 +15,7 @@ class FavoriteImagesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(favoriteImagesView)
+        favoriteImagesView.favoritesTableView.backgroundColor = UIColor.groupTableViewBackground
         favoriteImagesView.favoritesTableView.delegate = self
         favoriteImagesView.favoritesTableView.dataSource = self
     }
@@ -54,9 +55,8 @@ extension FavoriteImagesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let favCell =  tableView.dequeueReusableCell(withIdentifier: "FavoriteCell", for: indexPath) as! FavoriteImageTableViewCell
         let favPixabay = FileManagerHelper.shared.getFavoritePixabays().reversed()[indexPath.row]
-        favCell.favoriteImageView.image = FileManagerHelper.shared.getImage(with: favPixabay)
-        // TODO: make sure right location name displays
-        favCell.locationNameLabel.text = UserDefaultsHelper.shared.getSavedLocationName()
+        favCell.favoriteImageView.image = FileManagerHelper.shared.getImage(with: favPixabay.pixabay)
+        favCell.locationNameLabel.text = favPixabay.locationName
         return favCell
     }
     

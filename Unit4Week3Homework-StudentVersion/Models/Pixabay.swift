@@ -15,8 +15,6 @@ struct PixabayResponse: Codable {
 struct Pixabay: Codable {
     let id: Int
     let webformatURL: String
-    let webformatHeight: Int
-    let webformatWidth: Int
 }
 
 struct PixabayAPIClient {
@@ -33,6 +31,7 @@ struct PixabayAPIClient {
             errorHandler(AppError.badURL(str: fullUrl))
             return
         }
+        print(encodedFullUrl)
         guard let url = URL(string: encodedFullUrl) else {
             errorHandler(AppError.badURL(str: fullUrl))
             return
@@ -45,7 +44,7 @@ struct PixabayAPIClient {
                     errorHandler(AppError.noImages)
                     return
                 }
-                let randomIndex = Int(arc4random_uniform(UInt32(pixabayResponse.hits.count)))
+                let randomIndex = Int(arc4random_uniform(UInt32(pixabayResponse.hits.count - 1)))
                 let randomPixabay = pixabayResponse.hits[randomIndex]
                 completionHandler(randomPixabay)
             }
