@@ -215,9 +215,10 @@ class WeatherDetailView: UIView {
         self.windspeedLabel.text = "Windspeed: \(dayForecast.windSpeedMPH) MPH"
         self.precipitationLabel.text = "Inches of Precipitation: \(dayForecast.precipIN)"
         PixabayAPIClient.manager.getRandomImage(from: location, completionHandler: {
-            self.pixabay = $0
+            let pixabayToSet: Pixabay = $0
             ImageFetchHelper.manager.getImage(with: $0, completionHandler: {
                 self.locationImageView.image = $0
+                self.pixabay = pixabayToSet
                 self.locationImageView.setNeedsLayout()
             }, errorHandler: { print($0) })
         }, errorHandler: { print($0) })
