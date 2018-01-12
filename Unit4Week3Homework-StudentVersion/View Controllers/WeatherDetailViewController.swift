@@ -35,13 +35,18 @@ class WeatherDetailViewController: UIViewController {
         configureNavBar()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        weatherDetailView.configureDetails(dayForecast: dayForecast)
+    }
+    
     private func configureNavBar() {
         navigationItem.title = "Forecast"
         let saveImageBarButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveImage))
         navigationItem.rightBarButtonItem = saveImageBarButton
     }
     
-    @objc func saveImage() {
+    @objc private func saveImage() {
         guard let pixabay = weatherDetailView.pixabay, let image = weatherDetailView.locationImageView.image  else {
             showAlertController(with: "Error", message: "No image to save")
             return
@@ -53,11 +58,20 @@ class WeatherDetailViewController: UIViewController {
         if let locationName = UserDefaultsHelper.shared.getSavedLocationName() {
             let favPixabayToSave = FavoritePixabay(pixabay: pixabay, locationName: locationName)
             FileManagerHelper.shared.saveImage(with: favPixabayToSave , image: image)
-            showAlertController(with: "Success", message: "Image saved!")
+            favoritedAnimation()
         }
     }
     
-    func showAlertController(with title: String, message: String) {
+    private func favoritedAnimation() {
+        let animation = CABasicAnimation(keyPath: "opacity")
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        animation.fromValue = 0
+        animation.toValue = 1
+        animation.duration = 0.4
+        weatherDetailView.heartImageView.layer.add(animation, forKey: nil)
+    }
+    
+    private func showAlertController(with title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
         alertController.addAction(okAction)

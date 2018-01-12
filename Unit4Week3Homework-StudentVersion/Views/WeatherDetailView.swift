@@ -31,6 +31,14 @@ class WeatherDetailView: UIView {
         return imageView
     }()
     
+    lazy var heartImageView: UIImageView = {
+        var imageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "heart")
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.opacity = 0
+        return imageView
+    }()
+    
     lazy var forecastLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -105,6 +113,7 @@ class WeatherDetailView: UIView {
     private func setupViews() {
         setupMainLabel()
         setupLocationImageView()
+        setupHeartImageView()
         setupForecastLabel()
         setupHighTempLabel()
         setupLowTempLabel()
@@ -134,6 +143,18 @@ class WeatherDetailView: UIView {
             locationImageView.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor, multiplier: 0.95),
             locationImageView.heightAnchor.constraint(equalTo: safeAreaLayoutGuide.heightAnchor, multiplier: 0.5),
             locationImageView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor)
+        ])
+    }
+    
+    private func setupHeartImageView() {
+        addSubview(heartImageView)
+        heartImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            heartImageView.centerXAnchor.constraint(equalTo: locationImageView.centerXAnchor),
+            heartImageView.centerYAnchor.constraint(equalTo: locationImageView.centerYAnchor),
+            heartImageView.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.heightAnchor, multiplier: 0.25),
+            heartImageView.heightAnchor.constraint(equalTo: heartImageView.widthAnchor)
         ])
     }
     
@@ -211,12 +232,9 @@ class WeatherDetailView: UIView {
     func configureDetailView(dayForecast: DayForecast, date: String, location: String) {
         self.mainLabel.text = "Weather Forecast for \(location) for \(date)"
         self.forecastLabel.text = dayForecast.weatherPrimary
-        self.highTempLabel.text = "High: \(dayForecast.maxTempF) ℉"
-        self.lowTempLabel.text = "Low: \(dayForecast.minTempF) ℉"
-        self.sunriseLabel.text = "Sunrise: \(Date(timeIntervalSince1970: Double(dayForecast.sunrise)).description.components(separatedBy: " ")[1])"
-        self.sunsetLabel.text = "Sunset: \(Date(timeIntervalSince1970: Double(dayForecast.sunset)).description.components(separatedBy: " ")[1])"
-        self.windspeedLabel.text = "Windspeed: \(dayForecast.windSpeedMPH) MPH"
-        self.precipitationLabel.text = "Inches of Precipitation: \(dayForecast.precipIN)"
+
+        configureDetails(dayForecast: dayForecast)
+
         PixabayAPIClient.manager.getRandomImage(from: location, completionHandler: {
             let pixabayToSet: Pixabay = $0
             ImageFetchHelper.manager.getImage(with: $0, completionHandler: {
@@ -225,6 +243,36 @@ class WeatherDetailView: UIView {
                 self.locationImageView.setNeedsLayout()
             }, errorHandler: { print($0) })
         }, errorHandler: { print($0) })
+    }
+    
+    func configureDetails(dayForecast: DayForecast) {
+        if UserDefaultsHelper.shared.getMetricSystem() == "Metric" {
+            configureWithMetric(dayForecast: dayForecast)
+        } else {
+            configureWithImperial(dayForecast: dayForecast)
+        }
+    }
+    
+    // https://stackoverflow.com/questions/24777496/how-can-i-convert-string-date-to-nsdate
+    // reference for changing 24-hour to AM/PM
+    private func configureWithImperial(dayForecast: DayForecast) {
+        self.highTempLabel.text = "High: \(dayForecast.maxTempF) ℉"
+        self.lowTempLabel.text = "Low: \(dayForecast.minTempF) ℉"
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm:ss a"
+        self.sunriseLabel.text = "Sunrise: \(dateFormatter.string(from: Date(timeIntervalSince1970: Double(dayForecast.sunrise))))"
+        self.sunsetLabel.text = "Sunset: \(dateFormatter.string(from: Date(timeIntervalSince1970: Double(dayForecast.sunset))))"
+        self.windspeedLabel.text = "Windspeed: \(dayForecast.windSpeedMPH) MPH"
+        self.precipitationLabel.text = "Inches of Precipitation: \(dayForecast.precipIN) IN"
+    }
+    
+    private func configureWithMetric(dayForecast: DayForecast) {
+        self.highTempLabel.text = "High: \(dayForecast.maxTempC) ℃"
+        self.lowTempLabel.text = "Low: \(dayForecast.minTempC) ℃"
+        self.sunriseLabel.text = "Sunrise: \(Date(timeIntervalSince1970: Double(dayForecast.sunrise)).description.components(separatedBy: " ")[1])"
+        self.sunsetLabel.text = "Sunset: \(Date(timeIntervalSince1970: Double(dayForecast.sunset)).description.components(separatedBy: " ")[1])"
+        self.windspeedLabel.text = "Windspeed: \(dayForecast.windSpeedKPH) KPH"
+        self.precipitationLabel.text = "Inches of Precipitation: \(dayForecast.precipMM) MM"
     }
 
 }

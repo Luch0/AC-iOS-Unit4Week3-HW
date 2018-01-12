@@ -22,13 +22,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
         let mainWeatherVC = MainWeatherViewController()
-        mainWeatherVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+        //mainWeatherVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+        mainWeatherVC.tabBarItem = UITabBarItem(title: "Weather", image: #imageLiteral(resourceName: "cloudBar"), selectedImage: nil)
         let mainWeatherNVC = UINavigationController(rootViewController: mainWeatherVC)
         
         let favoriteImagesVC = FavoriteImagesViewController()
-        favoriteImagesVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
+        //favoriteImagesVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
+        favoriteImagesVC.tabBarItem = UITabBarItem(title: "Favorites", image: #imageLiteral(resourceName: "heartBar"), selectedImage: nil)
         
-        tabViewController.setViewControllers([mainWeatherNVC, favoriteImagesVC], animated: true)
+        let settingsVC = SettingsViewController()
+        //settingsVC.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 2)
+        settingsVC.tabBarItem = UITabBarItem(title: "Settings", image: #imageLiteral(resourceName: "settingsBar"), selectedImage: nil)
+        
+        tabViewController.setViewControllers([mainWeatherNVC, favoriteImagesVC, settingsVC], animated: true)
         self.window?.rootViewController = tabViewController
         self.window?.makeKeyAndVisible()
         

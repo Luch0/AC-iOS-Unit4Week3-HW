@@ -12,16 +12,16 @@ class MainWeatherViewController: UIViewController {
 
     let mainWeatherView = MainWeatherView()
     
-    let cellSpacing: CGFloat = 5.0
+    private let cellSpacing: CGFloat = 5.0
     
-    var forecast = [DayForecast]() {
+    private var forecast = [DayForecast]() {
         didSet {
             mainWeatherView.forecastCollectionView.reloadData()
             mainWeatherView.forecastCollectionView.setContentOffset(CGPoint.zero, animated: true)
         }
     }
     
-    var location: String?
+    private var location: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +37,12 @@ class MainWeatherViewController: UIViewController {
         loadLastLocation()
     }
     
-    func loadLastLocation() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        mainWeatherView.forecastCollectionView.reloadData()
+    }
+    
+    private func loadLastLocation() {
         guard let zipCode = UserDefaultsHelper.shared.getSavedZipCode() else { return }
         mainWeatherView.zipCodeTextField.text = zipCode
         ForecastAPIClient.manager.getForecast(with: zipCode, completionHandler: {
@@ -91,7 +96,7 @@ extension MainWeatherViewController: UITextFieldDelegate {
         textField.text = ""
     }
     
-    func showAlertController(with title: String, message: String) {
+    private func showAlertController(with title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
         alertController.addAction(okAction)
@@ -107,21 +112,26 @@ extension MainWeatherViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "forecastCell", for: indexPath) as! ForecastCollectionViewCell
-        cell.backgroundColor = .white
+        let forecastCell = collectionView.dequeueReusableCell(withReuseIdentifier: "forecastCell", for: indexPath) as! ForecastCollectionViewCell
+        forecastCell.backgroundColor = .white
         let dayForecast = forecast[indexPath.row]
-        cell.dateLabel.text = Date(timeIntervalSince1970: Double(dayForecast.timestamp)).description.components(separatedBy: " ")[0]
-        cell.forecastImageView.image = nil
-        cell.forecastImageView.image = UIImage(named: dayForecast.icon)
-        cell.highTempLabel.text = "High: \(dayForecast.maxTempF) ℉"
-        cell.lowTempLabel.text = "Low: \(dayForecast.minTempF) ℉"
+        forecastCell.dateLabel.text = Date(timeIntervalSince1970: Double(dayForecast.timestamp)).description.components(separatedBy: " ")[0]
+        forecastCell.forecastImageView.image = nil
+        forecastCell.forecastImageView.image = UIImage(named: dayForecast.icon)
         
-        animateCellShadow(cell: cell)
+        if UserDefaultsHelper.shared.getMetricSystem() == "Metric" {
+            forecastCell.highTempLabel.text = "High: \(dayForecast.maxTempC) ℃"
+            forecastCell.lowTempLabel.text = "Low: \(dayForecast.minTempC) ℃"
+        } else {
+            forecastCell.highTempLabel.text = "High: \(dayForecast.maxTempF) ℉"
+            forecastCell.lowTempLabel.text = "Low: \(dayForecast.minTempF) ℉"
+        }
         
-        return cell
+        animateCellShadow(cell: forecastCell)
+        return forecastCell
     }
     
-    func animateCellShadow(cell: ForecastCollectionViewCell) {
+    private func animateCellShadow(cell: ForecastCollectionViewCell) {
         let cellOpacityAnimation = CABasicAnimation(keyPath: "shadowOpacity")
         cellOpacityAnimation.fromValue = 0
         cellOpacityAnimation.toValue = 1
@@ -143,7 +153,8 @@ extension MainWeatherViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let forecastCell = collectionView.cellForItem(at: indexPath) as! ForecastCollectionViewCell
         let dayForecast = forecast[indexPath.row]
-        let weatherDetailViewController = WeatherDetailViewController(dayForecast: dayForecast, date: forecastCell.dateLabel.text!, location: location!)
+        guard let date = forecastCell.dateLabel.text, let location = location else { return }
+        let weatherDetailViewController = WeatherDetailViewController(dayForecast: dayForecast, date: date, location: location)
         self.navigationController?.pushViewController(weatherDetailViewController, animated: true)
     }
     

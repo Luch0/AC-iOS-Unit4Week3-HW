@@ -31,7 +31,6 @@ struct PixabayAPIClient {
             errorHandler(AppError.badURL(str: fullUrl))
             return
         }
-        print(encodedFullUrl)
         guard let url = URL(string: encodedFullUrl) else {
             errorHandler(AppError.badURL(str: fullUrl))
             return

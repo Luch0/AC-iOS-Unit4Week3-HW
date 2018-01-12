@@ -17,14 +17,12 @@ struct ImageFetchHelper {
         guard let url = URL(string: pixabay.webformatURL) else { errorHandler(AppError.badURL(str: pixabay.webformatURL)); return }
         let request = URLRequest(url: url)
         if let cachedImage = NSCacheHelper.manager.getImage(with: pixabay.id.description) {
-            print("Getting cached image")
             completionHandler(cachedImage)
             return
         }
         let completion: (Data) -> Void = { (data: Data) in
             guard let onlineImage = UIImage(data: data) else { errorHandler(AppError.notAnImage); return }
             NSCacheHelper.manager.addImage(with: pixabay.id.description, and: onlineImage)
-            print("Getting image from web")
             completionHandler(onlineImage)
         }
         NetworkHelper.manager.performDataTask(with: request, completionHandler: completion, errorHandler: errorHandler)

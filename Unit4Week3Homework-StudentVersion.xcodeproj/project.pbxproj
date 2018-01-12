@@ -21,9 +21,10 @@
 		E22297C72005CC8100FAD9C3 /* FavoriteImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22297C62005CC8100FAD9C3 /* FavoriteImageTableViewCell.swift */; };
 		E2229C9820007D3E005E728A /* MainWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2229C9720007D3E005E728A /* MainWeatherView.swift */; };
 		E224E67120056C8400DECD13 /* Pixabay.swift in Sources */ = {isa = PBXBuildFile; fileRef = E224E67020056C8400DECD13 /* Pixabay.swift */; };
-		E28D0B6D20069FDE008B591B /* UserDefaualtsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28D0B6C20069FDE008B591B /* UserDefaualtsHelper.swift */; };
+		E28D0B6D20069FDE008B591B /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28D0B6C20069FDE008B591B /* UserDefaultsHelper.swift */; };
 		E28D0B6F2006A980008B591B /* NSCacheHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28D0B6E2006A980008B591B /* NSCacheHelper.swift */; };
 		E2D7AFE52007B6ED004AEA8C /* FavoritePixabay.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D7AFE42007B6ED004AEA8C /* FavoritePixabay.swift */; };
+		E2D7B0072007FE81004AEA8C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D7B0062007FE81004AEA8C /* SettingsViewController.swift */; };
 		E2D9A2E82003C3C200B6356E /* DayForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D9A2E72003C3C200B6356E /* DayForecast.swift */; };
 		E2D9A3082003E12E00B6356E /* ForecastCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D9A3072003E12E00B6356E /* ForecastCollectionViewCell.swift */; };
 		E2D9A328200424D400B6356E /* WeatherDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D9A327200424D400B6356E /* WeatherDetailView.swift */; };
@@ -46,9 +47,10 @@
 		E22297C62005CC8100FAD9C3 /* FavoriteImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteImageTableViewCell.swift; sourceTree = "<group>"; };
 		E2229C9720007D3E005E728A /* MainWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWeatherView.swift; sourceTree = "<group>"; };
 		E224E67020056C8400DECD13 /* Pixabay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pixabay.swift; sourceTree = "<group>"; };
-		E28D0B6C20069FDE008B591B /* UserDefaualtsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaualtsHelper.swift; sourceTree = "<group>"; };
+		E28D0B6C20069FDE008B591B /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
 		E28D0B6E2006A980008B591B /* NSCacheHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSCacheHelper.swift; sourceTree = "<group>"; };
 		E2D7AFE42007B6ED004AEA8C /* FavoritePixabay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePixabay.swift; sourceTree = "<group>"; };
+		E2D7B0062007FE81004AEA8C /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		E2D9A2E72003C3C200B6356E /* DayForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayForecast.swift; sourceTree = "<group>"; };
 		E2D9A3072003E12E00B6356E /* ForecastCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastCollectionViewCell.swift; sourceTree = "<group>"; };
 		E2D9A327200424D400B6356E /* WeatherDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailView.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				E213C4E1200007FC00F21205 /* MainWeatherViewController.swift */,
 				E213C4E32000082C00F21205 /* WeatherDetailViewController.swift */,
 				E213C4E52000099600F21205 /* FavoriteImagesViewController.swift */,
+				E2D7B0062007FE81004AEA8C /* SettingsViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -131,7 +134,7 @@
 				E22297C02005B04200FAD9C3 /* ImageFetchHelper.swift */,
 				E28D0B6E2006A980008B591B /* NSCacheHelper.swift */,
 				E213C4DC200002DA00F21205 /* NetworkHelper.swift */,
-				E28D0B6C20069FDE008B591B /* UserDefaualtsHelper.swift */,
+				E28D0B6C20069FDE008B591B /* UserDefaultsHelper.swift */,
 				E22297C42005C4F700FAD9C3 /* FileMangerHelper.swift */,
 			);
 			path = Helpers;
@@ -225,6 +228,7 @@
 				E213C4E62000099600F21205 /* FavoriteImagesViewController.swift in Sources */,
 				E22297C12005B04200FAD9C3 /* ImageFetchHelper.swift in Sources */,
 				E22297C32005B7D800FAD9C3 /* FavoriteImagesView.swift in Sources */,
+				E2D7B0072007FE81004AEA8C /* SettingsViewController.swift in Sources */,
 				E2D9A328200424D400B6356E /* WeatherDetailView.swift in Sources */,
 				E213C4DD200002DA00F21205 /* NetworkHelper.swift in Sources */,
 				5410A6D31FFFDF6500935A9A /* ZipCodeHelper.swift in Sources */,
@@ -234,7 +238,7 @@
 				E2D9A2E82003C3C200B6356E /* DayForecast.swift in Sources */,
 				E28D0B6F2006A980008B591B /* NSCacheHelper.swift in Sources */,
 				E213C4E2200007FC00F21205 /* MainWeatherViewController.swift in Sources */,
-				E28D0B6D20069FDE008B591B /* UserDefaualtsHelper.swift in Sources */,
+				E28D0B6D20069FDE008B591B /* UserDefaultsHelper.swift in Sources */,
 				E213C4E42000082C00F21205 /* WeatherDetailViewController.swift in Sources */,
 				E2D9A3082003E12E00B6356E /* ForecastCollectionViewCell.swift in Sources */,
 				5410A6C11FFFDF1200935A9A /* AppDelegate.swift in Sources */,

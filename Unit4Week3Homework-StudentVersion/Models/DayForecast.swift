@@ -21,6 +21,9 @@ struct DayForecast: Codable {
     let dateTimeISO: String
     let maxTempF: Int
     let minTempF: Int
+    let maxTempC: Int
+    let minTempC: Int
+    let precipMM: Double
     let precipIN: Double
     let snowIN: Double
     let sunriseISO: String
@@ -31,6 +34,7 @@ struct DayForecast: Codable {
     let sunrise: Int
     let sunset: Int
     let windSpeedMPH: Int
+    let windSpeedKPH: Int
 }
 
 struct ForecastAPIClient {
